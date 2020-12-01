@@ -1,39 +1,13 @@
-cc_test(
-    name = "day1_example",
-    srcs = [
-        "main.c",
-    ],
-    data = [
-        "example.txt",
-    ],
-    defines = [
-        'INPUT_FILE=\\"day1/example.txt\\"',
-    ],
-    deps = [
-        "//common:utils",
-    ],
-)
+load("//aoc:rules.bzl", "cc_aoc")
 
-cc_test(
+cc_aoc(
     name = "day1",
     srcs = [
         "main.c",
     ],
-    data = [
-        "input.txt",
-    ],
-    defines = [
-        'INPUT_FILE=\\"day1/input.txt\\"',
-    ],
     deps = [
         "//common:utils",
     ],
-)
-
-test_suite(
-    name = "all",
-    tests = [
-        ":day1",
-        ":day1_example",
-    ]
+    input_file = "input.txt",
+    example_file = "example.txt",
 )

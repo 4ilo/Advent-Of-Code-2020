@@ -10,11 +10,7 @@
 void part1(const int* numbers, int length)
 {
     for (int i=0; i<length; i++) {
-        for (int j=0; j<length; j++) {
-            if (i == j) {
-                continue;
-            }
-
+        for (int j=i+1; j<length; j++) {
             if (numbers[i] + numbers[j] == 2020) {
                 printf("Result: %d + %d = 2020. -> %d\n", numbers[i], numbers[j], numbers[i]*numbers[j]);
                 return;
@@ -26,8 +22,8 @@ void part1(const int* numbers, int length)
 void part2(const int* numbers, int length)
 {
     for (int i=0; i<length; i++) {
-        for (int j=0; j<length; j++) {
-            for (int k=0; k<length; k++) {
+        for (int j=i+1; j<length; j++) {
+            for (int k=j+1; k<length; k++) {
                 if (i == j || i == k || j == k) {
                     continue;
                 }
