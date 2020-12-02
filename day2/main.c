@@ -65,9 +65,8 @@ void release(struct password_record** passwords, int length)
 }
 
 
-void part1(struct password_record* passwords, int length)
+void part1(const struct password_record* passwords, int length)
 {
-
     int counter = 0;
     int correct_passwords = 0;
 
@@ -83,11 +82,12 @@ void part1(struct password_record* passwords, int length)
             correct_passwords++;
         }
     }
+
     printf("Correct passwords: %d\n", correct_passwords);
 }
 
 
-void part2(struct password_record* passwords, int length)
+void part2(const struct password_record* passwords, int length)
 {
     int correct_passwords = 0;
 
@@ -97,6 +97,7 @@ void part2(struct password_record* passwords, int length)
             correct_passwords++;
         }
     }
+
     printf("Correct passwords: %d\n", correct_passwords);
 }
 
