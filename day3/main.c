@@ -52,9 +52,16 @@ int check_slope(char** map, int height, int width, int offset_x, int offset_y)
         y += offset_y;
     }
 
-    printf("trees: %d\n", trees);
-
     return trees;
+}
+
+void release(char*** map, int length)
+{
+    for (int i=0; i<length; i++) {
+        free((*map)[i]);
+    }
+
+    free(*map);
 }
 
 
@@ -72,14 +79,17 @@ int main(void)
     printf("Part 1: %d\n", trees);
 
     // Part 2
-    int result = 1;
+    // Result doesn't fit inside int -.-. Took way to long to realize
+    long result = 1;
     result *= check_slope(map, length, width, 1, 1);
     result *= check_slope(map, length, width, 3, 1);
     result *= check_slope(map, length, width, 5, 1);
     result *= check_slope(map, length, width, 7, 1);
     result *= check_slope(map, length, width, 1, 2);
 
-    printf("Part 2: %d\n", result);
+    printf("Part 2: %ld\n", result);
+
+    release(&map, length);
 
     return 0;
 }
