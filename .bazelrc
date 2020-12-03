@@ -1,1 +1,1 @@
-build --test_output=all --copt="-Wextra" --copt="-Werror" --copt="-ggdb"
+build --test_output=all --copt="-Wextra" --copt="-Werror" --copt="-ggdb" --compilation_mode=dbg
