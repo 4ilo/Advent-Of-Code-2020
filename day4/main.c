@@ -137,7 +137,7 @@ void part2(const struct password_record* passwords, int length)
         }
     }
 
-    printf("Part1: %d\n", valid_passwords);
+    printf("Part2: %d\n", valid_passwords);
 }
 
 

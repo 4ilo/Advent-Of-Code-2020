@@ -6,7 +6,6 @@
 
 static int validate_hcl(const char* hcl)
 {
-    int ok = 0;
     int len = strnlen(hcl, FIELD_LEN);
     char allowlist[] = "0123456789abcdef";
 
@@ -15,7 +14,7 @@ static int validate_hcl(const char* hcl)
     }
 
     for (int i=1; i<len; i++) {
-        ok = 0;
+        int ok = 0;
         for (int j=0; j<16; j++) {
             if (hcl[i] == allowlist[j]) {
                 ok = 1;
