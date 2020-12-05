@@ -9,7 +9,20 @@
 #warning Please define INPUT_FILE on the command line
 #endif
 
-int read_input_file(const char* filename, char*** seats, int width)
+int str_2_bin(const char* buffer)
+{
+    int number = 0;
+
+    for (int i=0; i<10; i++) {
+        if (buffer[i] == 'B' || buffer[i] == 'R') {
+            number |= (1 << (9- i));
+        }
+    }
+
+    return number;
+}
+
+int read_input_file(const char* filename, int** ids)
 {
     FILE* file;
     int counter = 0;
@@ -23,10 +36,11 @@ int read_input_file(const char* filename, char*** seats, int width)
     do {
         fscanf(file, "%s\n", buffer);
 
+        int id = str_2_bin(buffer);
+
         // Get some memory and store the password
-        *seats = (char**) realloc(*seats, (counter+1) * sizeof(char*));
-        (*seats)[counter] = (char*) calloc(width, sizeof(char));
-        strncpy((*seats)[counter], buffer, width);
+        *ids = (int*) realloc(*ids, (counter+1) * sizeof(int));
+        (*ids)[counter] = id;
 
         counter++;
     } while(!feof(file));
@@ -35,34 +49,12 @@ int read_input_file(const char* filename, char*** seats, int width)
     return counter;
 }
 
-int find_row(const char* seat, char letter, int length)
-{
-    int min = 0;
-    int max = (int) pow(2, length);
-
-    for (int j=0; j<length; j++) {
-        if (seat[j] == letter) {
-            max -= ((max-min)/2);
-        }
-        else {
-            min += ((max-min)/2);
-        }
-    }
-
-    return min;
-}
-
-
-int part1(char** seats, int length, int* ids)
+int part1(int* ids, int length)
 {
     int highest = 0;
     int lowest = 10000;
 
     for (int i=0; i<length; i++) {
-        int x = find_row(seats[i], 'F', 7);
-        int y = find_row(seats[i]+7, 'L', 3);
-        ids[i] = x*8+y;
-
         if (ids[i] > highest) {
             highest = ids[i];
         }
@@ -101,34 +93,18 @@ void part2(int* ids, int length, int lowest)
 }
 
 
-void release(char*** seats, int length)
-{
-    for (int i=0; i<length; i++) {
-        free((*seats)[i]);
-    }
-
-    free(*seats);
-}
-
-
 int main(void)
 {
-    char** seats = NULL;
     int* ids = NULL;
     int length = 0;
-    int width = 10;
     int lowest = 0;
 
-    length = read_input_file(INPUT_FILE, &seats, width);
-    printf("Len: %d, Width: %d\n", length, width);
+    length = read_input_file(INPUT_FILE, &ids);
+    printf("Len: %d\n", length);
 
-    // Get some memory to store the seat_ids
-    ids = (int*) calloc(length, sizeof(int));
-
-    lowest = part1(seats, length, ids);
+    lowest = part1(ids, length);
     part2(ids, length, lowest);
 
-    release(&seats, length);
     free(ids);
 
     return 0;
