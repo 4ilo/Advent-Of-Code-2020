@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
+
 import argparse
 from collections import defaultdict
+
 
 def part1(data):
     groups = []
