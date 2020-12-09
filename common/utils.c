@@ -26,3 +26,9 @@ int read_number_file(const char* filename, int** numbers)
     fclose(file);
     return counter - 1;
 }
+
+
+int sortFunc(const void* a, const void* b)
+{
+    return *(int*)a - *(int*)b;
+}

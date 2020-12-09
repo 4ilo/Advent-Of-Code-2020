@@ -3,6 +3,8 @@
 #include <string.h>
 #include <math.h>
 
+#include "common/utils.h"
+
 #define MAX_BUFFER_SIZE 265
 
 #ifndef INPUT_FILE
@@ -67,12 +69,6 @@ int part1(int* ids, int length)
     printf("Highest id: %d\n", highest);
 
     return lowest;
-}
-
-
-int sortFunc(const void* a, const void* b)
-{
-    return *(int*)a - *(int*)b;
 }
 
 

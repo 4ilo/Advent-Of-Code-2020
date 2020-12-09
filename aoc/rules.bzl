@@ -2,7 +2,7 @@ def cc_aoc(name, input_file, example_file, **kwargs):
     native.cc_test(
         name = name + "_example",
         data = [example_file],
-        defines = ['INPUT_FILE=\\"{}/{}\\"'.format(name, example_file)],
+        defines = ['INPUT_FILE=\\"{}/{}\\"'.format(name, example_file), "EXAMPLE"],
         **kwargs,
     )
     native.cc_test(

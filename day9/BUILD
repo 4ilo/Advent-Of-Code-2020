@@ -1,7 +1,7 @@
 load("//aoc:rules.bzl", "cc_aoc")
 
 cc_aoc(
-    name = "day5",
+    name = "day9",
     srcs = [
         "main.c",
     ],
