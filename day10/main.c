@@ -2,12 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#ifdef EXAMPLE
-#define PREAMBLE 5
-#else
-#define PREAMBLE 25
-#endif
-
 #include "common/utils.h"
 
 #ifndef INPUT_FILE
@@ -33,7 +27,6 @@ void part1(const int* numbers, int length)
         }
     }
 
-    printf("%d, %d\n", diff_1,diff_3);
     printf("Part 1: %d\n", diff_1*diff_3);
 }
 
@@ -41,7 +34,7 @@ long find(int* map, long* cache, int i, int max)
 {
     long result = 0;
 
-    if(cache[i]) {
+    if (cache[i]) {
         return cache[i];
     }
 
@@ -50,7 +43,7 @@ long find(int* map, long* cache, int i, int max)
         return 1;
     }
 
-    for(int k = 1; k <= 3; k++){
+    for (int k = 1; k <= 3; k++) {
         if(!map[i + k]) {
             continue;
         }
@@ -58,9 +51,9 @@ long find(int* map, long* cache, int i, int max)
     }
 
     cache[i] = result;
-
     return result;
 }
+
 
 void part2(const int* numbers, int length)
 {
@@ -80,7 +73,11 @@ void part2(const int* numbers, int length)
 
     result = find(map, cache, 0, max);
     printf("Part2: %ld\n", result);
+
+    free(map);
+    free(cache);
 }
+
 
 int main(void)
 {
