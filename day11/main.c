@@ -56,7 +56,7 @@ int read_input_file(const char* filename, enum tile_t map[SIZE][SIZE])
 
 
     fclose(file);
-    return counter;
+    return counter - 1;
 }
 
 int get_neighbours(enum tile_t map[SIZE][SIZE], int x, int y)
@@ -98,14 +98,6 @@ int iter(enum tile_t map[SIZE][SIZE], enum tile_t output[SIZE][SIZE], int length
         }
     }
 
-    //for (int y=0; y<length; y++) {
-    //    for (int x=0; x<length; x++) {
-    //        printf("%d", output[y][x]);
-    //    }
-    //    printf("\n");
-    //}
-    //printf("changed: %d\n", changed);
-
     return changed;
 }
 
@@ -119,12 +111,8 @@ void part1(enum tile_t map[SIZE][SIZE], int length)
 
     while(iter(input, output, length)) {
         memcpy(input, output, SIZE*SIZE*sizeof(enum tile_t));
-        counter++;
     }
 
-    printf("Rounds: %d\n", counter);
-
-    counter = 0;
     for (int y=0; y<length; y++) {
         for (int x=0; x<length; x++) {
             if (output[y][x] == FULL) {
@@ -136,6 +124,91 @@ void part1(enum tile_t map[SIZE][SIZE], int length)
     printf("Part 1: %d\n", counter);
 }
 
+
+int get_neighbours2(enum tile_t map[SIZE][SIZE], int x, int y)
+{
+    const int move_x[] = {1, 0, -1,  0, 1, -1,  1, -1};
+    const int move_y[] = {0, 1,  0, -1, 1, -1, -1,  1};
+
+    int multiplier = 1;
+    int neighbours = 0;
+    int x2, y2;
+
+    for (int i=0; i<8; i++) {
+        multiplier = 1;
+        while (1) {
+            x2 =  move_x[i] * multiplier;
+            y2 =  move_y[i] * multiplier;
+
+            if (x + x2 >= 0 && x + x2 < SIZE && y + y2 >= 0 && y + y2 < SIZE) {
+                if (map[y+y2][x+x2] == FLOOR) {
+                    multiplier++;
+                    continue;
+                }
+
+                if (map[y+y2][x+x2] == FULL) {
+                    neighbours++;
+                }
+            }
+
+            break;
+        }
+    }
+
+    return neighbours;
+}
+
+
+int iter2(enum tile_t map[SIZE][SIZE], enum tile_t output[SIZE][SIZE], int length)
+{
+    int changed = 0;
+    int neighbours = 0;
+
+    for (int y=0; y<length; y++) {
+        for (int x=0; x<length; x++) {
+            neighbours = get_neighbours2(map, x, y);
+
+            if (neighbours == 0 && map[y][x] == EMPTY) {
+                output[y][x] = FULL;
+                changed++;
+            }
+
+            if (neighbours >= 5 && map[y][x] == FULL) {
+                output[y][x] = EMPTY;
+                changed++;
+            }
+        }
+    }
+
+    return changed;
+}
+
+
+void part2(const enum tile_t map[SIZE][SIZE], int length)
+{
+    int counter = 0;
+    enum tile_t input[SIZE][SIZE] = {};
+    enum tile_t output[SIZE][SIZE] = {};
+
+    memcpy(input, map, SIZE*SIZE*sizeof(enum tile_t));
+
+    while(iter2(input, output, length)) {
+        memcpy(input, output, SIZE*SIZE*sizeof(enum tile_t));
+    }
+
+    counter = 0;
+    for (int y=0; y<length; y++) {
+        for (int x=0; x<length; x++) {
+            if (output[y][x] == FULL) {
+                counter++;
+            }
+        }
+    }
+
+    printf("Part 2: %d\n", counter);
+}
+
+
 int main(void)
 {
     enum tile_t map[SIZE][SIZE] = {};
@@ -145,8 +218,7 @@ int main(void)
     printf("Len: %d\n", length);
 
     part1(map, SIZE);
-
-    //free(numbers);
+    part2(map, SIZE);
 
     return 0;
 }
