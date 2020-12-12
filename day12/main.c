@@ -46,22 +46,8 @@ void forward(int* x, int* y, int direction, int value)
     int sin_y = (int) sin(direction * rad);
     int cos_x = (int) cos(direction * rad);
 
-    if (sin_y == -1 && cos_x == 0) {
-        // SOUTH
-        *y += value;
-    }
-    else if (sin_y == 0 && cos_x == -1) {
-        // WEST
-        *x -= value;
-    }
-    else if (sin_y == 1 && cos_x == 0) {
-        // NORTH
-        *y -= value;
-    }
-    else if (sin_y == 0 && cos_x == 1) {
-        // EAST
-        *x += value;
-    }
+    *y -= sin_y * value;
+    *x += cos_x * value;
 }
 
 void part1(const struct instruction* instructions, int length)
